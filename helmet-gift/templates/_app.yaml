@@ -1,0 +1,21 @@
+{{- define "helmet-gift.app" -}}
+{{- if .Values.configMap.data }}
+{{ include "helmet-gift.configmap" . }}
+{{- end }}
+
+{{- if .Values.image.repository }}
+{{ include "helmet-gift.deployment" . }}
+{{- end }}
+
+{{ include "helmet-gift.hpa" . }}
+
+{{- if or .Values.secret.data .Values.secret.stringData }}
+{{ include "helmet-gift.secret" . }}
+{{- end }}
+
+{{- if and .Values.ports .Values.service.ports }}
+{{ include "helmet-gift.service" . }}
+{{- end }}
+
+{{ include "helmet-gift.serviceaccount" . }}
+{{- end }}

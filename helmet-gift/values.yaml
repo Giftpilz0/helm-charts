@@ -1,0 +1,301 @@
+---
+exports:
+  defaults:
+
+    ## Helpful Links:
+    ## - Kubernetes Documentation: <https://kubernetes.io/docs/home/>
+    ## - Kubernetes Pod Security Context: <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/>
+    ## - Kubernetes Service Documentation: <https://kubernetes.io/docs/concepts/services-networking/service/>
+    ## - Kubernetes Horizontal Pod Autoscaler: <https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/>
+    ## - Kubernetes Config Maps: <https://kubernetes.io/docs/concepts/configuration/configmap/>
+    ## - Kubernetes Secrets: <https://kubernetes.io/docs/concepts/configuration/secret/>
+
+    # ______________________________________________________________________________
+    #
+    # Global Parameters
+    # ______________________________________________________________________________
+
+    ## @param global.imageRegistry: Global Docker image registry
+    ## @param global.imagePullSecrets: Global Docker registry secret names as an array
+    ## @param global.storageClass: Global StorageClass for Persistent Volume(s)
+
+    global:
+      imageRegistry: ""
+      imagePullSecrets: []
+      storageClass: ""
+
+    # ______________________________________________________________________________
+    #
+    # Common Parameters
+    # ______________________________________________________________________________
+
+    ## @param kubeVersion: Override Kubernetes version
+    ## @param nameOverride: String to partially override common.names.name
+    ## @param fullnameOverride: String to fully override common.names.fullname
+    ## @param namespaceOverride: String to fully override common.names.namespace
+    ## @param commonLabels: Labels to add to all deployed objects
+    ## @param commonAnnotations: Annotations to add to all deployed objects
+    ## @param clusterDomain: Kubernetes cluster domain name
+
+    kubeVersion: ""
+    nameOverride: ""
+    fullnameOverride: ""
+    namespaceOverride: ""
+    commonLabels: {}
+    commonAnnotations: {}
+    clusterDomain: cluster.local
+
+    # ______________________________________________________________________________
+    #
+    # Image Parameters
+    # ______________________________________________________________________________
+
+    ## @param image.registry: Container image registry
+    ## @param image.repository: Container image repository
+    ## @param image.tag: Container image tag
+    ## @param image.digest: Container image digest
+    ## @param image.pullPolicy: Image pull policy
+    ## @param image.pullSecrets: Image pull secrets
+
+    image:
+      registry: docker.io
+      repository: ""
+      tag: latest
+      digest: ""
+      pullPolicy: IfNotPresent
+      pullSecrets: []
+
+    # ______________________________________________________________________________
+    #
+    # Deployment Parameters
+    # ______________________________________________________________________________
+
+    ## @param replicaCount: Number of APP replicas, ReadWriteMany PVCs are required to scale
+    ## @param podRestartPolicy: Pod restart policy
+    ## @param hostAliases: Add deployment host aliases
+    ## @param podLabels: Additional pod labels
+    ## @param podAnnotations: Additional pod annotations
+    ## @param nodeSelector: Node labels for pod assignment
+    ## @param tolerations: Tolerations for pod assignment
+    ## @param topologySpreadConstraints: Topology Spread Constraints for pod assignment spread across your cluster among failure-domains. Evaluated as a template
+    ## @param priorityClassName: Priority Class Name
+    ## @param terminationGracePeriodSeconds: Seconds APP pod needs to terminate gracefully
+    ## @param command: Override default container command
+    ## @param args: Override default container args
+    ## @param envVarsConfigMap: ConfigMap with environment variables
+    ## @param envVarsSecret: Secret with environment variables
+
+    replicaCount: 1
+    podRestartPolicy: Always
+    hostAliases: []
+    podLabels: {}
+    podAnnotations: {}
+    nodeSelector: {}
+    tolerations: []
+    topologySpreadConstraints: []
+    priorityClassName: ""
+    terminationGracePeriodSeconds: ""
+    command: []
+    args: []
+    envVarsConfigMap: ""
+    envVarsSecret: ""
+
+    # Pod Security Context Parameters
+    ## @param podSecurityContext.enabled: Enable security context for pod
+    ## @param podSecurityContext.fsGroupChangePolicy: FS Group change policy for pod
+    ## @param podSecurityContext.sysctls: Sysctls for pod
+    ## @param podSecurityContext.supplementalGroups: Supplemental groups for pod
+    ## @param podSecurityContext.fsGroup: FS Group for pod
+
+    podSecurityContext:
+      enabled: true
+      fsGroupChangePolicy: Always
+      sysctls: []
+      supplementalGroups: []
+      fsGroup: 1001
+
+    # Container Security Context Parameters
+    ## @param containerSecurityContext.enabled: Enable security context for container
+    ## @param containerSecurityContext.seLinuxOptions: SELinux options for container
+    ## @param containerSecurityContext.runAsUser: User ID to run the container
+    ## @param containerSecurityContext.runAsGroup: Group ID to run the container
+    ## @param containerSecurityContext.runAsNonRoot: Run the container as a non-root user
+    ## @param containerSecurityContext.readOnlyRootFilesystem: Read-only root filesystem for container
+    ## @param containerSecurityContext.privileged: Run the container in privileged mode
+    ## @param containerSecurityContext.allowPrivilegeEscalation: Allow privilege escalation for container
+    ## @param containerSecurityContext.capabilities: Capabilities for container
+    ## @param containerSecurityContext.seccompProfile: Seccomp profile for container
+
+    containerSecurityContext:
+      enabled: true
+      seLinuxOptions: {}
+      runAsUser: 1001
+      runAsGroup: 1001
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      privileged: false
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+      seccompProfile:
+        type: "RuntimeDefault"
+
+    # Resource Parameters
+    ## @param resources.limits: Resource limits for the container
+    ## @param resources.limits.cpu: CPU resource limit
+    ## @param resources.limits.memory: Memory resource limit
+    ## @param resources.requests: Resource requests for the container
+    ## @param resources.requests.cpu: CPU resource request
+    ## @param resources.requests.memory: Memory resource request
+
+    resources:
+      limits: {}
+      ##  cpu: 100m
+      ##  memory: 128Mi
+      requests: {}
+      ##  cpu: 100m
+      ##  memory: 128Mi
+
+    # Update Strategy Parameters
+    ## @param updateStrategy.type: Deployment update strategy type
+
+    updateStrategy:
+      type: RollingUpdate
+
+    # Extra Parameters
+    ## @param extraVolumes: Array to add extra volumes (evaluated as a template)
+    ## @param extraVolumeMounts: Array to add extra mounts (normally used with extraVolumes, evaluated as a template)
+    ## @param envVars: Environment variables to be set on APP container
+    ## @param ports: List of ports to expose from the container
+
+    extraVolumes: []
+    ## - name: vol-conf
+    ##   configMap:
+    ##     name: "configmap-name"
+    ## - name: vol-secret
+    ##   secret:
+    ##     secretName: "secret-name"
+
+    extraVolumeMounts: []
+    ## - name: vol-conf
+    ##   mountPath: "/app/config"
+
+    envVars: null
+    ## FOO: "foo"
+    ## BAZ:
+    ##   valueFrom:
+    ##     configMapRef: ...
+
+    ports:
+    ## - name: http
+    ##   containerPort: 8080
+    ##   protocol: TCP
+
+    # ______________________________________________________________________________
+    #
+    # HPA Parameters
+    # ______________________________________________________________________________
+
+    ## @param autoscaling.enabled: Enable horizontal pod auto-scaling
+    ## @param autoscaling.minReplicas: Minimum number of replicas for auto-scaling
+    ## @param autoscaling.maxReplicas: Maximum number of replicas for auto-scaling
+    ## @param autoscaling.targetCPU: Target CPU utilization percentage for auto-scaling
+    ## @param autoscaling.targetMemory: Target memory utilization percentage for auto-scaling
+
+    autoscaling:
+      enabled: false
+      minReplicas: ""
+      maxReplicas: ""
+      targetCPU: ""
+      targetMemory: ""
+
+    # ______________________________________________________________________________
+    #
+    # ConfigMap Parameters
+    # ______________________________________________________________________________
+
+    ## @param configMap.mounted: Mount ConfigMap as a volume
+    ## @param configMap.mountPath: Mount path for the ConfigMap
+    ## @param configMap.subPath: SubPath within the volume for the ConfigMap
+    ## @param configMap.annotations: Additional custom annotations for the ConfigMap
+    ## @param configMap.labels: Additional custom labels for the ConfigMap
+    ## @param configMap.data: Store data in key-value pairs
+
+    configMap:
+      mounted: false
+      mountPath: /app/config
+      subPath: ""
+      annotations: {}
+      labels: {}
+      data: {}
+      ## config.yaml:
+      ##   mode: production
+      ## FOO: bar
+      ## DEBUG: true
+
+    # ______________________________________________________________________________
+    #
+    # Secret Parameters
+    # ______________________________________________________________________________
+
+    ## @param secret.type: The type is used to facilitate programmatic handling of the Secret data
+    ## @param secret.annotations: Additional custom annotations for the Secret
+    ## @param secret.labels: Additional custom labels for the Secret
+    ## @param secret.data: Store data in key-value pairs
+    ## @param secret.stringData: Store data in key-value pairs
+
+    secret:
+      type: Opaque
+      annotations: {}
+      labels: {}
+      data: {}
+      ## username: YWRtaW4=
+      ## password: MWYyZDFlMmU2N2Rm
+      stringData: {}
+      ## username: admin
+      ## password: t0p-Secret
+
+    # ______________________________________________________________________________
+    #
+    # Service Parameters
+    # ______________________________________________________________________________
+
+    ## @param service.type: Type of service to create
+    ## @param service.ports: List of ports to expose from the service
+    ## @param service.clusterIP: Service Cluster IP
+    ## @param service.loadBalancerIP: Service Load Balancer IP
+    ## @param service.loadBalancerSourceRanges: Service Load Balancer sources
+    ## @param service.externalTrafficPolicy: Service external traffic policy
+    ## @param service.annotations: Additional custom annotations for service
+    ## @param service.extraPorts: Additional ports for the service
+
+    service:
+      type: LoadBalancer
+      ports:
+        - name: http
+          protocol: TCP
+          port: 80
+          targetPort: http
+      clusterIP: ""
+      loadBalancerIP: ""
+      ## - 10.10.10.0/24
+      loadBalancerSourceRanges: []
+      externalTrafficPolicy: Cluster
+      annotations: {}
+      extraPorts: []
+
+    # ______________________________________________________________________________
+    #
+    # ServiceAccount Parameters
+    # ______________________________________________________________________________
+
+    ## @param serviceAccount.create: Specifies whether a ServiceAccount should be created
+    ## @param serviceAccount.name: The name of the ServiceAccount to use
+    ## @param serviceAccount.annotations: Additional Service Account annotations (evaluated as a template)
+    ## @param serviceAccount.automountServiceAccountToken: Automount service account token for the server service account
+
+    serviceAccount:
+      create: true
+      name: ""
+      annotations: {}
+      automountServiceAccountToken: true

@@ -1,0 +1,10 @@
+---
+apiVersion: v2
+name: helmet-gift
+description: Helmet-gift is a library Helm Chart for grouping common logics. This chart is not deployable by itself.
+type: library
+version: 0.1.0
+dependencies:
+  - name: common
+    version: 2.19.3
+    repository: https://charts.bitnami.com/bitnami
