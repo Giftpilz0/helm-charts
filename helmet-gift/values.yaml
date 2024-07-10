@@ -169,27 +169,27 @@ exports:
     ## @param ports: List of ports to expose from the container
 
     extraVolumes: []
-    ## - name: vol-conf
-    ##   configMap:
-    ##     name: "configmap-name"
-    ## - name: vol-secret
-    ##   secret:
-    ##     secretName: "secret-name"
+    ##  - name: vol-conf
+    ##    configMap:
+    ##      name: "configmap-name"
+    ##  - name: vol-secret
+    ##    secret:
+    ##      secretName: "secret-name"
 
     extraVolumeMounts: []
-    ## - name: vol-conf
-    ##   mountPath: "/app/config"
+    ##  - name: vol-conf
+    ##    mountPath: "/app/config"
 
     envVars: null
-    ## FOO: "foo"
-    ## BAZ:
-    ##   valueFrom:
-    ##     configMapRef: ...
+    ##  FOO: "foo"
+    ##  BAZ:
+    ##    valueFrom:
+    ##      configMapRef: ...
 
     ports:
-    ## - name: http
-    ##   containerPort: 8080
-    ##   protocol: TCP
+    ##  - name: http
+    ##    containerPort: 8080
+    ##    protocol: TCP
 
     # ______________________________________________________________________________
     #
@@ -228,10 +228,10 @@ exports:
       annotations: {}
       labels: {}
       data: {}
-      ## config.yaml:
-      ##   mode: production
-      ## FOO: bar
-      ## DEBUG: true
+      ##  config.yaml:
+      ##    mode: production
+      ##  FOO: bar
+      ##  DEBUG: true
 
     # ______________________________________________________________________________
     #
@@ -249,11 +249,11 @@ exports:
       annotations: {}
       labels: {}
       data: {}
-      ## username: YWRtaW4=
-      ## password: MWYyZDFlMmU2N2Rm
+      ##  username: YWRtaW4=
+      ##  password: MWYyZDFlMmU2N2Rm
       stringData: {}
-      ## username: admin
-      ## password: t0p-Secret
+      ##  username: admin
+      ##  password: t0p-Secret
 
     # ______________________________________________________________________________
     #
@@ -278,11 +278,37 @@ exports:
           targetPort: http
       clusterIP: ""
       loadBalancerIP: ""
-      ## - 10.10.10.0/24
+      ##  - 10.10.10.0/24
       loadBalancerSourceRanges: []
       externalTrafficPolicy: Cluster
       annotations: {}
       extraPorts: []
+
+    # ______________________________________________________________________________
+    #
+    # Service Parameters
+    # ______________________________________________________________________________
+
+    ## @param httpRoute.create: Specifies whether an httpRoute should be created
+    ## @param httpRoute.name: The name of the HTTPRoute
+    ## @param httpRoute.parentRefs: A list of parentRefs for the HTTPRoute
+    ## @param httpRoute.parentRefs.name: The name of the parentRef
+    ## @param httpRoute.parentRefs.namespace: The namespace of the parentRef
+    ## @param httpRoute.hostnames: A list of hostnames for the HTTPRoute
+    ## @param httpRoute.rules: A list of rules for the HTTPRoute
+
+    httpRoute:
+      create: true
+      name: ""
+      parentRefs:
+        - name: cilium-gateway
+          namespace: kube-system
+      hostnames: []
+      ##  - example.com
+      rules:
+      ##  - backendRefs:
+      ##      - name: example-service
+      ##        port: 80
 
     # ______________________________________________________________________________
     #

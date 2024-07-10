@@ -10,6 +10,17 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+Create the name of the httproute
+*/}}
+{{- define "helmet-gift.httpRouteName" -}}
+{{- if .Values.httpRoute.create }}
+{{- default (include "common.names.fullname" .) .Values.httpRoute.name }}
+{{- else }}
+{{- default "default" .Values.httpRoute.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Render an array of env variables. The input can be a map or a slice.
 Values can be templates using the "common.tplvalues.render" helper, but changes to scope are not processed.
 Usage:
