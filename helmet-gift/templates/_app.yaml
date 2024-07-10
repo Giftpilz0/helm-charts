@@ -19,6 +19,7 @@
 
 {{- if and .Values.ports .Values.service.ports }}
 {{ include "helmet-gift.httproute" . }}
+{{- end }}
 
 {{ include "helmet-gift.serviceaccount" . }}
 {{- end }}
