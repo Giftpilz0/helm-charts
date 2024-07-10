@@ -13,3 +13,6 @@ dependencies:
     repository: file://../helmet-gift/
     import-values:
       - defaults
+  - name: common
+    version: 2.19.3
+    repository: https://charts.bitnami.com/bitnami

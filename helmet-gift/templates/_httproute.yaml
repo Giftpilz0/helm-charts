@@ -19,6 +19,7 @@ spec:
     {{- end }}
   rules:
     {{- range .Values.httpRoute.rules }}
+    - {{ . | toYaml | nindent 4 }}
     {{- end }}
 {{- end }}
 {{- end }}
